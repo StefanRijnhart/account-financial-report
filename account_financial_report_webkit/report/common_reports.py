@@ -533,7 +533,9 @@ SELECT l.id AS id,
             i.id AS invoice_id,
             i.type AS invoice_type,
             i.number AS invoice_number,
-            l.date_maturity
+            l.date_maturity,
+            pm.name as payment_mode,
+            l.blocked
 FROM account_move_line l
     JOIN account_move m on (l.move_id=m.id)
     LEFT JOIN res_currency c on (l.currency_id=c.id)
@@ -543,6 +545,7 @@ FROM account_move_line l
     LEFT JOIN res_partner p on (l.partner_id=p.id)
     LEFT JOIN account_invoice i on (m.id =i.move_id)
     LEFT JOIN account_period per on (per.id=l.period_id)
+    LEFT JOIN payment_mode pm on pm.id = i.payment_mode_id
     JOIN account_journal j on (l.journal_id=j.id)
     WHERE l.id in %s"""
         monster += (" ORDER BY %s" % (order,))
