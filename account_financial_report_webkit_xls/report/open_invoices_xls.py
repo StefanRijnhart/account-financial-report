@@ -32,7 +32,7 @@ from openerp.tools.translate import _
 
 
 class open_invoices_xls(report_xls):
-    column_sizes = [12, 12, 20, 15, 30, 30, 14, 14, 14, 14, 14, 14, 10]
+    column_sizes = [12, 12, 20, 15, 30, 30, 14, 14, 14, 14, 14, 14, 14, 14, 10]
 
     def global_initializations(self, wb, _p, xlwt, _xs, objects, data):
         # this procedure will initialise variables and Excel cell styles and
@@ -55,11 +55,11 @@ class open_invoices_xls(report_xls):
             if hasattr(acc, 'grouped_ledger_lines'):
                 group_lines = True
         if group_lines:
-            self.nbr_columns = 12
+            self.nbr_columns = 14
         elif _p.amount_currency(data) and not group_lines:
-            self.nbr_columns = 13
+            self.nbr_columns = 15
         else:
-            self.nbr_columns = 11
+            self.nbr_columns = 13
         # -------------------------------------------------------
         # cell style for report title
         self.style_font12 = xlwt.easyxf(_xs['xls_title'])
@@ -224,6 +224,10 @@ class open_invoices_xls(report_xls):
                          None, self.style_yellow_bold), ]
         c_specs += [
             ('label', 1, 0, 'text', _('Label'), None, self.style_yellow_bold),
+            ('blocked', 1, 0, 'text', _('Blocked'),
+             None, self.style_yellow_bold),
+            ('payment_mode', 1, 0, 'text', _('Payment mode'),
+             None, self.style_yellow_bold),
             ('rec', 1, 0, 'text', _('Rec.'), None, self.style_yellow_bold),
             ('due_date', 1, 0, 'text', _('Due Date'),
              None, self.style_yellow_bold),
@@ -323,6 +327,9 @@ class open_invoices_xls(report_xls):
             ('journal', 1, 0, 'text', line.get('jcode') or ''),
             ('partner', 1, 0, 'text', line.get('partner_name') or ''),
             ('label', 1, 0, 'text', label),
+            ('blocked', 1, 0, 'text',
+             line.get('blocked') and _('Blocked') or ''),
+            ('payment_mode', 1, 0, 'text', line.get('payment_mode') or ''),
             ('rec', 1, 0, 'text', line.get('rec_name') or ''),
         ]
         if line.get('date_maturity'):
@@ -419,6 +426,9 @@ class open_invoices_xls(report_xls):
             ('entry', 1, 0, 'text', line.get('move_name') or ''),
             ('journal', 1, 0, 'text', line.get('jcode') or ''),
             ('label', 1, 0, 'text', label),
+            ('blocked', 1, 0, 'text',
+             line.get('blocked') and _('Blocked') or ''),
+            ('payment_mode', 1, 0, 'text', line.get('payment_mode') or ''),
             ('rec', 1, 0, 'text', line.get('rec_name') or ''),
         ]
         if line.get('date_maturity'):
@@ -485,6 +495,8 @@ class open_invoices_xls(report_xls):
             ('init_bal', 1, 0, 'text', _('Cumulated Balance on Partner')),
             ('rec', 1, 0, 'text', None),
             ('empty5', 1, 0, 'text', None),
+            ('empty5', 1, 0, 'text', None),
+            ('empty5', 1, 0, 'text', None),
             ('debit', 1, 0, 'number', None,
              debit_partner_total, self.style_partner_cumul_decimal),
             ('credit', 1, 0, 'number', None,
@@ -547,6 +559,8 @@ class open_invoices_xls(report_xls):
             # , style_bold_italic),
             ('init_bal', 1, 0, 'text', _('Cumulated Balance on Partner')),
             ('rec', 1, 0, 'text', None),
+            ('empty5', 1, 0, 'text', None),
+            ('empty5', 1, 0, 'text', None),
             ('empty5', 1, 0, 'text', None),
             ('debit', 1, 0, 'number', None,
              debit_partner_total, self.style_partner_cumul_decimal),
@@ -623,6 +637,8 @@ class open_invoices_xls(report_xls):
             ('init_bal', 2, 0, 'text',
              _('Cumulated Balance on Account')),
             ('empty2', 1, 0, 'text', None),
+            ('empty2', 1, 0, 'text', None),
+            ('empty2', 1, 0, 'text', None),
             ('debit', 1, 0, 'number', None,
              total_debit_account, self.style_account_title_decimal),
             ('credit', 1, 0, 'number', None,
@@ -696,6 +712,8 @@ class open_invoices_xls(report_xls):
              ' - '.join([account.code, account.name])),
             ('init_bal', 2, 0, 'text',
              _('Cumulated Balance on Account')),
+            ('empty2', 1, 0, 'text', None),
+            ('empty2', 1, 0, 'text', None),
             ('empty2', 1, 0, 'text', None),
             ('debit', 1, 0, 'number', None,
              total_debit_account, self.style_account_title_decimal),
