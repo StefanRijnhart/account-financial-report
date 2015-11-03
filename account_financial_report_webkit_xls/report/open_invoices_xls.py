@@ -346,9 +346,9 @@ class open_invoices_xls(report_xls):
         ]
 
         # determine the formula of the cumulated balance
-        debit_cell = rowcol_to_cell(row_position, 8)
-        credit_cell = rowcol_to_cell(row_position, 9)
-        previous_balance = rowcol_to_cell(row_position - 1, 10)
+        debit_cell = rowcol_to_cell(row_position, 10)
+        credit_cell = rowcol_to_cell(row_position, 11)
+        previous_balance = rowcol_to_cell(row_position - 1, 12)
 
         # if it is the first line, the balance is only debit - credit
         if line_number == 1:
@@ -404,9 +404,9 @@ class open_invoices_xls(report_xls):
             style_line_date = self.style_date
             style_line_decimal = self.style_decimal
 
-        debit_cell = rowcol_to_cell(row_position, 7)
-        credit_cell = rowcol_to_cell(row_position, 8)
-        previous_balance = rowcol_to_cell(row_position - 1, 9)
+        debit_cell = rowcol_to_cell(row_position, 9)
+        credit_cell = rowcol_to_cell(row_position, 10)
+        previous_balance = rowcol_to_cell(row_position - 1, 11)
 
         # if it is the first line, the balance is only debit - credit
         if line_number == 1:
@@ -470,27 +470,28 @@ class open_invoices_xls(report_xls):
         # selecting the option regroup by currency, 5 in  the other case
         start_col = 5
 
-        debit_partner_start = rowcol_to_cell(row_start_partner, start_col + 3)
-        debit_partner_end = rowcol_to_cell(row_position - 1, start_col + 3)
+        debit_partner_start = rowcol_to_cell(row_start_partner, start_col + 5)
+        debit_partner_end = rowcol_to_cell(row_position - 1, start_col + 5)
         debit_partner_total = 'SUM(' + debit_partner_start + \
             ':' + debit_partner_end + ')'
 
-        credit_partner_start = rowcol_to_cell(row_start_partner, start_col + 4)
-        credit_partner_end = rowcol_to_cell(row_position - 1, start_col + 4)
+        credit_partner_start = rowcol_to_cell(row_start_partner, start_col + 6)
+        credit_partner_end = rowcol_to_cell(row_position - 1, start_col + 6)
         credit_partner_total = 'SUM(' + credit_partner_start + \
             ':' + credit_partner_end + ')'
 
-        bal_curr_start = rowcol_to_cell(row_start_partner, start_col + 6)
-        bal_curr_end = rowcol_to_cell(row_position - 1, start_col + 6)
+        bal_curr_start = rowcol_to_cell(row_start_partner, start_col + 8)
+        bal_curr_end = rowcol_to_cell(row_position - 1, start_col + 8)
         cumul_balance_curr = 'SUM(' + bal_curr_start + ':' + bal_curr_end + ')'
 
-        bal_partner_debit = rowcol_to_cell(row_position, start_col + 3)
-        bal_partner_credit = rowcol_to_cell(row_position, start_col + 4)
+        bal_partner_debit = rowcol_to_cell(row_position, start_col + 5)
+        bal_partner_credit = rowcol_to_cell(row_position, start_col + 6)
         bal_partner_total = bal_partner_debit + '-' + bal_partner_credit
 
         c_specs = [('empty%s' % x, 1, 0, 'text', None)
                    for x in range(start_col)]
 
+        print "here"
         c_specs += [
             ('init_bal', 1, 0, 'text', _('Cumulated Balance on Partner')),
             ('rec', 1, 0, 'text', None),
@@ -534,22 +535,22 @@ class open_invoices_xls(report_xls):
         # selecting the option regroup by currency, 5 in  the other case
         start_col = 4
 
-        debit_partner_start = rowcol_to_cell(row_start_partner, start_col + 3)
-        debit_partner_end = rowcol_to_cell(row_position - 1, start_col + 3)
+        debit_partner_start = rowcol_to_cell(row_start_partner, start_col + 5)
+        debit_partner_end = rowcol_to_cell(row_position - 1, start_col + 5)
         debit_partner_total = 'SUM(' + debit_partner_start + \
             ':' + debit_partner_end + ')'
 
-        credit_partner_start = rowcol_to_cell(row_start_partner, start_col + 4)
-        credit_partner_end = rowcol_to_cell(row_position - 1, start_col + 4)
+        credit_partner_start = rowcol_to_cell(row_start_partner, start_col + 6)
+        credit_partner_end = rowcol_to_cell(row_position - 1, start_col + 6)
         credit_partner_total = 'SUM(' + credit_partner_start + \
             ':' + credit_partner_end + ')'
 
-        bal_curr_start = rowcol_to_cell(row_start_partner, start_col + 5)
-        bal_curr_end = rowcol_to_cell(row_position - 1, start_col + 5)
+        bal_curr_start = rowcol_to_cell(row_start_partner, start_col + 7)
+        bal_curr_end = rowcol_to_cell(row_position - 1, start_col + 7)
         cumul_balance_curr = 'SUM(' + bal_curr_start + ':' + bal_curr_end + ')'
 
-        bal_partner_debit = rowcol_to_cell(row_position, start_col + 3)
-        bal_partner_credit = rowcol_to_cell(row_position, start_col + 4)
+        bal_partner_debit = rowcol_to_cell(row_position, start_col + 5)
+        bal_partner_credit = rowcol_to_cell(row_position, start_col + 6)
         bal_partner_total = bal_partner_debit + '-' + bal_partner_credit
 
         c_specs = [('empty%s' % x, 1, 0, 'text', None)
@@ -605,13 +606,13 @@ class open_invoices_xls(report_xls):
 
         # range in which we make the sum of all the cumulated balance lines
         # (debit)
-        range_debit_start = rowcol_to_cell(row_start_account, start_col + 3)
-        range_debit_stop = rowcol_to_cell(row_position - 1, start_col + 3)
+        range_debit_start = rowcol_to_cell(row_start_account, start_col + 5)
+        range_debit_stop = rowcol_to_cell(row_position - 1, start_col + 5)
 
         # range in which we make the sum of all the cumulated balance lines
         # (crebit)
-        range_credit_start = rowcol_to_cell(row_start_account, start_col + 4)
-        range_credit_stop = rowcol_to_cell(row_position - 1, start_col + 4)
+        range_credit_start = rowcol_to_cell(row_start_account, start_col + 6)
+        range_credit_stop = rowcol_to_cell(row_position - 1, start_col + 6)
 
         search_key = _('Cumulated Balance on Partner')
         total_debit_account = 'SUMIF(' + reference_start + ':' + \
@@ -621,12 +622,12 @@ class open_invoices_xls(report_xls):
             reference_stop + ';"' + search_key + '";' + range_credit_start + \
             ':' + range_credit_stop + ')'
 
-        bal_account_debit = rowcol_to_cell(row_position, start_col + 3)
-        bal_account_credit = rowcol_to_cell(row_position, start_col + 4)
+        bal_account_debit = rowcol_to_cell(row_position, start_col + 5)
+        bal_account_credit = rowcol_to_cell(row_position, start_col + 6)
         bal_account_total = bal_account_debit + '-' + bal_account_credit
 
-        bal_curr_start = rowcol_to_cell(row_start_account, start_col + 6)
-        bal_curr_end = rowcol_to_cell(row_position - 1, start_col + 6)
+        bal_curr_start = rowcol_to_cell(row_start_account, start_col + 8)
+        bal_curr_end = rowcol_to_cell(row_position - 1, start_col + 8)
         cumul_balance_curr = 'SUMIF(' + reference_start + ':' + \
             reference_stop + ';"' + search_key + '";' + \
             bal_curr_start + ':' + bal_curr_end + ')'
@@ -681,13 +682,13 @@ class open_invoices_xls(report_xls):
 
         # range in which we make the sum of all the cumulated balance lines
         # (debit)
-        range_debit_start = rowcol_to_cell(row_start_account, start_col + 3)
-        range_debit_stop = rowcol_to_cell(row_position - 1, start_col + 3)
+        range_debit_start = rowcol_to_cell(row_start_account, start_col + 5)
+        range_debit_stop = rowcol_to_cell(row_position - 1, start_col + 5)
 
         # range in which we make the sum of all the cumulated balance lines
         # (crebit)
-        range_credit_start = rowcol_to_cell(row_start_account, start_col + 4)
-        range_credit_stop = rowcol_to_cell(row_position - 1, start_col + 4)
+        range_credit_start = rowcol_to_cell(row_start_account, start_col + 6)
+        range_credit_stop = rowcol_to_cell(row_position - 1, start_col + 6)
 
         search_key = _('Cumulated Balance on Partner')
         total_debit_account = 'SUMIF(' + reference_start + ':' + \
@@ -697,12 +698,12 @@ class open_invoices_xls(report_xls):
             reference_stop + ';"' + search_key + '";' + range_credit_start + \
             ':' + range_credit_stop + ')'
 
-        bal_account_debit = rowcol_to_cell(row_position, start_col + 3)
-        bal_account_credit = rowcol_to_cell(row_position, start_col + 4)
+        bal_account_debit = rowcol_to_cell(row_position, start_col + 5)
+        bal_account_credit = rowcol_to_cell(row_position, start_col + 6)
         bal_account_total = bal_account_debit + '-' + bal_account_credit
 
-        bal_curr_start = rowcol_to_cell(row_start_account, start_col + 6)
-        bal_curr_end = rowcol_to_cell(row_position - 1, start_col + 6)
+        bal_curr_start = rowcol_to_cell(row_start_account, start_col + 8)
+        bal_curr_end = rowcol_to_cell(row_position - 1, start_col + 8)
         cumul_balance_curr = 'SUMIF(' + reference_start + ':' + \
             reference_stop + ';"' + search_key + '";' + \
             bal_curr_start + ':' + bal_curr_end + ')'
